@@ -13,11 +13,7 @@ public protocol TargetType {
 
 extension TargetType {
 
-    var baseURL: URL {
-        return URL(string: NetworkUtil.baseURL)!
-    }
-
     func generateEndPoint(lastPath: String) -> String {
-        return NetworkUtil.generateMobileEndPointV1(lastPath: lastPath)
+        return NetworkUtil.generateEndPoint(lastPath: lastPath)
     }
 }

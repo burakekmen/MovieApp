@@ -17,8 +17,8 @@ struct NetworkUtil {
         return Bundle.main.getValueWithKeyFromBundle(bundleKey: "ApiKey", defaultValue: "")
     }
     
-    static func generateMobileEndPointV1(lastPath: String) -> String {
-        return "?apikey=\(apiKey)?\(lastPath)"
+    static func generateEndPoint(lastPath: String) -> String {
+        return "\(baseURL)?apikey=\(apiKey)&\(lastPath)"
     }
     
 }
