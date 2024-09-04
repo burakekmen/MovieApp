@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>ApiKey</key>
-	<string>40239ae7</string>
+	<string>YOUR_API_KEY</string>
 	<key>BaseUrl</key>
 	<string>https://www.omdbapi.com/</string>
 </dict>
