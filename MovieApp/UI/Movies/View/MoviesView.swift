@@ -1,3 +1,10 @@
+//
+//  MovieDetailView.swift
+//  MovieApp
+//
+//  Created by Burak Ekmen on 3.09.2024.
+//
+
 import SwiftUI
 import Combine
 
@@ -18,38 +25,41 @@ struct MoviesView: View {
                     TextField("Search Movie...", text: $searchableMovie, onCommit: {
                         viewModel.searchMovies(query: searchableMovie)
                     })
-                    .padding()
-                    .textFieldStyle(.roundedBorder)
+                        .padding()
+                        .textFieldStyle(.roundedBorder)
 
                     List(viewModel.responseMovies?.movies ?? [], id: \.imdbId) { movie in
-                        HStack {
-                            CustomImageView(url: movie.poster ?? "")
-                                .frame(width: 90, height: 130)
+                        NavigationLink(destination: MovieDetailView(imdbId: movie.imdbId ?? ""),
+                                       label: {
+                                           HStack {
+                                               CustomImageView(url: movie.poster ?? "")
+                                                   .frame(width: 90, height: 130)
 
-                            VStack(alignment: .leading) {
-                                Text(movie.title ?? "")
-                                    .font(.title3)
-                                    .lineLimit(2)
-                                    .minimumScaleFactor(0.7)
-                                    .foregroundStyle(.blue)
+                                               VStack(alignment: .leading) {
+                                                   Text(movie.title ?? "")
+                                                       .font(.title3)
+                                                       .lineLimit(2)
+                                                       .minimumScaleFactor(0.7)
+                                                       .foregroundStyle(.blue)
 
-                                Text(movie.year ?? "")
-                                    .foregroundStyle(.orange)
-                            }
-                        }
+                                                   Text(movie.year ?? "")
+                                                       .foregroundStyle(.orange)
+                                               }
+                                           }
+                                       })
                     }
-                    .navigationTitle("Movies")
+                        .navigationTitle("Movies")
                 }
-                .onAppear {
+                    .onAppear {
                     print("onAppear")
                 }
-                .onReceive(viewModel._loadingState) { isLoading in
+                    .onReceive(viewModel._loadingState) { isLoading in
                     self.isLoading = isLoading
                 }
-                .onReceive(viewModel._errorState) { error in
+                    .onReceive(viewModel._errorState) { error in
                     print("Error occurred: \(error)")
                 }
-                .onReceive(viewModel.responseMoviesPublisher) { movies in
+                    .onReceive(viewModel.responseMoviesPublisher) { movies in
                     viewModel.responseMovies = movies
                 }
 
@@ -58,14 +68,14 @@ struct MoviesView: View {
                         .progressViewStyle(CircularProgressViewStyle())
                         .foregroundColor(.white)
                         .scaleEffect(1.5) // Daha büyük bir ProgressView
-                        .frame(maxWidth: .infinity, maxHeight: .infinity) // Tam ekran kapla
-                        .background(Color.black.opacity(0.4)) // Arka planı karart
-                        .cornerRadius(10) // Köşeleri yuvarlat
-                        .ignoresSafeArea() // Safe area'yı da kaplasın
+                    .frame(maxWidth: .infinity, maxHeight: .infinity) // Tam ekran kapla
+                    .background(Color.black.opacity(0.4)) // Arka planı karart
+                    .cornerRadius(10) // Köşeleri yuvarlat
+                    .ignoresSafeArea() // Safe area'yı da kaplasın
                 }
             }
-            .navigationViewStyle(StackNavigationViewStyle())
-            .preferredColorScheme(.light)
+                .navigationViewStyle(StackNavigationViewStyle())
+                .preferredColorScheme(.light)
         }
     }
 }
