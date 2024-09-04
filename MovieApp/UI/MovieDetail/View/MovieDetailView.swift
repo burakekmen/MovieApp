@@ -18,20 +18,64 @@ struct MovieDetailView: View {
     }
 
     var body: some View {
-        ZStack { // ZStack ekleyerek ProgressView'in List'in üstünde olmasını sağlıyoruz
-            VStack {
-                Text(viewModel.responseMovieDetail?.plot ?? "")
+        ZStack {
+            ScrollView {
+                VStack(spacing: 16) {
+                    let movie = viewModel.responseMovieDetail
+                    
+                    CustomImageView(url: movie?.poster ?? "")
+                        .frame(width: UIScreen.main.bounds.width * 0.6,
+                               height: UIScreen.main.bounds.width * 0.8)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .shadow(radius: 10)
+                        .padding(.top, 20)
+
+                    Text(movie?.title ?? "Title")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+
+                    Text(movie?.year ?? "Year")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+
+                    Text(movie?.plot ?? "Plot")
+                        .font(.body)
+                        .multilineTextAlignment(.leading)
+                        .padding(.horizontal)
+
+                    HStack {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Director:")
+                                .font(.headline)
+                                .foregroundColor(.primary)
+                            Text(movie?.director ?? "Unknown")
+                                .font(.body)
+                                .foregroundColor(.secondary)
+
+                            Text("Genre:")
+                                .font(.headline)
+                                .foregroundColor(.primary)
+                            Text(movie?.genre ?? "Unknown")
+                                .font(.body)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 16)
+                }
             }
-                .onAppear {
+            .onAppear {
                 viewModel.getMovieDetail()
             }
-                .onReceive(viewModel._loadingState) { isLoading in
+            .onReceive(viewModel._loadingState) { isLoading in
                 self.isLoading = isLoading
             }
-                .onReceive(viewModel._errorState) { error in
+            .onReceive(viewModel._errorState) { error in
                 print("Error occurred: \(error)")
             }
-                .onReceive(viewModel.responseMovieDetailPublisher) { movie in
+            .onReceive(viewModel.responseMovieDetailPublisher) { movie in
                 viewModel.responseMovieDetail = movie
             }
 
@@ -39,18 +83,18 @@ struct MovieDetailView: View {
                 ProgressView("Loading Movie...")
                     .progressViewStyle(CircularProgressViewStyle())
                     .foregroundColor(.white)
-                    .scaleEffect(1.5) // Daha büyük bir ProgressView
-                .frame(maxWidth: .infinity, maxHeight: .infinity) // Tam ekran kapla
-                .background(Color.black.opacity(0.4)) // Arka planı karart
-                .cornerRadius(10) // Köşeleri yuvarlat
-                .ignoresSafeArea() // Safe area'yı da kaplasın
+                    .scaleEffect(1.5)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color.black.opacity(0.4))
+                    .ignoresSafeArea()
             }
         }
+        .navigationBarTitleDisplayMode(.inline) // NavigationView boşluğunu azaltır
         .navigationViewStyle(StackNavigationViewStyle())
         .preferredColorScheme(.light)
     }
 }
 
 #Preview {
-    MovieDetailView(imdbId: "tt0468569")
+    MovieDetailView(imdbId: "")
 }
