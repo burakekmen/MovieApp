@@ -18,7 +18,7 @@ extension MovieService: TargetType {
         switch self {
             
         case .getMovies(let query):
-            return generateEndPoint(lastPath: "s=\(query)")
+            return generateEndPoint(lastPath: "s=\(query.trimmingCharacters)")
             
         }
         

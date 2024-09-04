@@ -15,7 +15,7 @@ struct MoviesView: View {
         NavigationView {
             ZStack { // ZStack ekleyerek ProgressView'in List'in üstünde olmasını sağlıyoruz
                 VStack {
-                    TextField("Aranacak Film", text: $searchableMovie, onCommit: {
+                    TextField("Search Movie...", text: $searchableMovie, onCommit: {
                         viewModel.searchMovies(query: searchableMovie)
                     })
                     .padding()
