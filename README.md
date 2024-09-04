@@ -21,7 +21,7 @@ Programming Architacture
 
 
 <img
-  src="[https://github.com/burakekmen/MovieApp/blob/master/SS/Simulation.gif]"
+  src="https://raw.githubusercontent.com/burakekmen/MovieApp/master/SS/Simulation.gif"
   alt=""
   title="App Demo"
    width="300" height="600"
